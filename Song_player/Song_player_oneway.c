@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include <time.h>
 #include <windows.h>
 
 // 歌曲节点结构体
@@ -146,6 +147,7 @@ void add_song(PlaylistManager* manager, const char* title, const char* artist,
         p->next = NULL;
         manager->song_count++;
     }
+    printf("Succeed to add song in the tail of the song list!\n");
     return;
 }
 
@@ -185,6 +187,11 @@ int delete_songs_by_title(PlaylistManager* manager, const char* title) {
                 pr->next = p->next;
                 free(p);
                 p = pr->next;
+            }
+            Song* temp = p;
+            while(temp != NULL){
+                temp->id--;
+                temp = temp->next;
             }
             count++;
             continue;
@@ -231,13 +238,73 @@ int export_playlist(PlaylistManager* manager, const char* filename) {
 
 // 6. 随机播放歌曲（非必做）
 int play_song_random(PlaylistManager* manager) {
+    int random_num = 0;
+    Song* p = manager->head;
+    random_num = rand() % manager->song_count;
+    // 检查歌单是否为空
+    if(p == NULL){
+        printf("The song_list is empty!\n");
+        return -1;
+    }
+    while(p != NULL){
+        if(p->id == random_num){
+            // 正在播放p节点处的音乐
+            manager->current = p;
+            play_audio(p->filepath);
+            break;
+        }
+        p = p->next;
+    }
     return 0;
 }
 
 // 7. 在指定位置插入歌曲（非必做）
 int insert_song_at(PlaylistManager* manager, int position, const char* title, 
                    const char* artist, const char* filepath) {
-    return 0;
+    Song* p =manager->head;
+    if(position >= manager->song_count || position < 0){
+        printf("歌单的歌曲数目为：%d\n", manager->song_count);
+        printf("Position is invalid!\n");
+        return -1;
+    }
+    while(p != NULL){
+        if(p->id == position){
+            Song* temp = NULL;
+            temp = (Song*)calloc(1,sizeof(Song));
+            if(temp == NULL){
+                printf("No enough memory to allocate!");
+                exit(0);
+            }
+            if(p == manager->tail){
+                p->next = temp;
+                manager->tail = temp;
+                temp->id = position + 1;
+                strcpy(temp->title, title);
+                strcpy(temp->artist, artist);
+                strcpy(temp->filepath, filepath);
+                temp->next = NULL;          
+                manager->song_count++;      
+            }else{
+                temp->next = p->next;
+                p->next = temp;
+                temp->id = position;
+                strcpy(temp->title, title);
+                strcpy(temp->artist, artist);
+                strcpy(temp->filepath, filepath);
+                manager->song_count++;
+                // 将插入节点后的歌曲的id都自增1
+                while(temp != NULL){
+                    temp->id++;
+                    temp = temp->next;
+                }
+            }
+            printf("Succeed to insert the song!\n");
+            return 0;
+        }
+        p = p->next;
+    }
+    printf("Failure to insert!\n");
+    return -1;
 }
 
 // 8. 销毁整个链表（非必做）
@@ -292,8 +359,10 @@ void get_user_input(char* buffer, int size, const char* prompt) {
 int main() {
     // 设置程序使用系统默认的区域设置，并允许使用UTF-8编码
     setlocale(LC_ALL, ".UTF-8");
-    PlaylistManager manager;
 
+    // 设置随机数种子
+    srand(time(NULL));
+    PlaylistManager manager;
     init_playlist_manager(&manager);
     load_songs_from_file(&manager,"song_list.txt");
 
