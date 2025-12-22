@@ -1,195 +1,195 @@
-//#define _CRT_SECURE_NO_WARNINGS
-//
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
-//
-//// ÓÃ»§½Úµã¶¨Òå
-//typedef struct Node {
-//    char name[50];
-//    int level; // 1=ÆÕÍ¨, 2=VIP, 3=SVIP
-//    struct Node* next;
-//} Node;
-//
-//// ¶ÓÁÐ½á¹¹Ìå
-//typedef struct Queue {
-//    Node* front;
-//    Node* rear;
-//} Queue;
-//
-//// ³õÊ¼»¯¶ÓÁÐ
-//// ²ÎÊý£ºq-¶ÓÁÐ
-//void initQueue(Queue* q) {
-//    // TODO£ºÍê³É¶ÓÁÐ³õÊ¼»¯´úÂë£¬¶ÓÍ·ÓÃfront,¶ÓÎ²ÓÃrear±íÊ¾
-//    q->front = NULL;
-//    q->rear = NULL;
-//}
-//
-//// ´´½¨½Úµã
-//Node* createNode(const char* name, int level) {
-//    Node* newNode = NULL;
-//    newNode = (Node*)malloc(sizeof(Node));
-//    if (newNode == NULL) {
-//        printf("No enough memory to allocate!");
-//        exit(0);
-//    }
-//    strcpy(newNode->name, name);
-//    newNode->level = level;
-//    newNode->next = NULL;
-//    return newNode;
-//}
-//
-//// Request²Ù×÷£ºÈë¶Ó£¨´øÓÅÏÈ¼¶²åÈë£©
-//// ²ÎÊý£ºq-¶ÓÁÐ£¬name-ÓÃ»§Ãû£¬level-µÈ¼¶
-//void request(Queue* q, const char* name, int level) {
-//    Node* newNode = createNode(name, level);
-//    Node* p = NULL;
-//    Node* pr = NULL;
-//    // ¶ÓÁÐÎª¿Õ£¬Ö±½Ó¼ÓÈë
-//    if (q->front == NULL) {
-//        // TODO£ºÍê³É¶ÓÁÐÎª¿ÕµÄÂß¼­
-//        q->front = newNode;
-//        q->rear = newNode;
-//        return;
-//    }
-//    // ²åÈëÂß¼­£º¸ßµÈ¼¶²åÔÚµÍµÈ¼¶ÓÃ»§Ç°Ãæ£¬Í¬µÈ¼¶ÔòÅÅÔÚºóÃæ
-//    // TODO£ºÇë°´ÕÕ¸Ã²¿·ÖµÄÒªÇó²¹È«´úÂë
-//    p = q->front;
-//    pr = p;
-//    while (p != NULL && newNode->level <= p->level) {
-//        pr = p;
-//        p = p->next;
-//    }
-//
-//    if (p == q->front) {
-//        newNode->next = q->rear;
-//        q->front = newNode;
-//    }
-//    else if (p == NULL) {
-//        pr->next = newNode;
-//        q->rear = newNode;
-//    }
-//    else {
-//        newNode->next = p;
-//        pr->next = newNode;
-//    }
-//}
-//
-//// Download²Ù×÷£ºÊä³ö¶ÓÊ×ÔªËØ£¬²¢É¾³ý¸ÃÔªËØ
-//// ²ÎÊý£ºq-¶ÓÁÐ
-//void download(Queue* q) {
-//    if (q->front == NULL) {
-//        printf("¶ÓÁÐÎª¿Õ£¬Ã»ÓÐ¿ÉÏÂÔØµÄÈÎÎñ¡£\n");
-//        return;
-//    }
-//    Node* temp = q->front;
-//    printf("ÏÂÔØÖÐ£º%s (level=%d)\n", temp->name, temp->level);
-//    //TODO£º¼ÌÐøÍê³ÉÉ¾³ý¶ÓÊ×ÔªËØµÄÂß¼­
-//    q->front = q->front->next;
-//    if (q->front == NULL) {
-//        q->rear = NULL;
-//    }
-//    free(temp);
-//}
-//
-//// Remove²Ù×÷£ºÉ¾³ýÖ¸¶¨ÓÃ»§
-//// ²ÎÊý£ºq-¶ÓÁÐ£¬name-ÓÃ»§Ãû
-//void removeUser(Queue* q, const char* name) {
-//    if (q->front == NULL) {
-//        printf("¶ÓÁÐÎª¿Õ£¬ÎÞ·¨É¾³ý¡£\n");
-//        return;
-//    }
-//    Node* prev = NULL;
-//    Node* curr = q->front;
-//    while (curr != NULL && strcmp(curr->name, name) != 0) {
-//        // TODO£ºÇëÍêÉÆÑ°ÕÒÖ¸¶¨ÓÃ»§Î»ÖÃµÄÂß¼­
-//        prev = curr;
-//        curr = curr->next;
-//    }
-//    if (curr == NULL) {
-//        printf("Î´ÕÒµ½ÓÃ»§£º%s\n", name);
-//        return;
-//    }
-//    // É¾³ýÖ¸¶¨ÓÃ»§£¬×¢Òâ¿¼ÂÇ¶ÓÍ·ºÍ¶ÓÎ²µÄÇé¿ö
-//    // TODO£ºÇëÍêÉÆ¸Ã²¿·Ö´úÂë
-//    if (curr == q->front) {
-//        q->front = curr->next;
-//    }
-//    else if (curr == q->rear) {
-//        prev->next = NULL;
-//        q->rear = prev;
-//    }
-//    else {
-//        prev->next = curr->next;
-//    }
-//    free(curr);
-//    printf("ÒÑÉ¾³ýÓÃ»§£º%s\n", name);
-//}
-//
-//// Display²Ù×÷£ºÏÔÊ¾¶ÓÁÐ
-//// ²ÎÊý£ºq-¶ÓÁÐ
-//void display(Queue* q) {
-//    if (q->front == NULL) {
-//        printf("µ±Ç°¶ÓÁÐÎª¿Õ¡£\n");
-//        return;
-//    }
-//    Node* curr = q->front;
-//    printf("µ±Ç°ÏÂÔØ¶ÓÁÐ£º\n");
-//    while (curr != NULL) {
-//        printf("ÓÃ»§Ãû: %-10s | level: %d\n", curr->name, curr->level);
-//        // TODO£ºÇëÍêÉÆÊ£Óà´úÂëÂß¼­
-//        curr = curr->next;
-//    }
-//}
-//
-//// Ö÷º¯Êý£ºÄ£Äâ²Ù×÷ÃüÁî
-//int main() {
-//    Queue q;
-//    initQueue(&q);
-//
-//    char command[50];
-//    char name[50];
-//    int level;
-//    printf("=== Ä³¶ÈÍøÅÌÏÂÔØµ÷¶ÈÏµÍ³ ===\n");
-//    printf("Ö§³ÖÃüÁî£ºRequest ÓÃ»§Ãû level | Download | Remove ÓÃ»§Ãû | Display | Exit\n");
-//    printf("ÇëÊäÈëÃüÁî£º\n");
-//    while (1) {
-//        scanf("%s", command);
-//        if (strcmp(command, "Request") == 0) {
-//            scanf("%s %d", name, &level);
-//            // ÍêÉÆÓÃ»§µÈ¼¶ÅÐ¶ÏÂß¼­£¬µ±³öÏÖÎÞÐ§ÓÃ»§µÈ¼¶Ê±£¬Êä³ö£º¡°ÎÞÐ§µÄÓÃ»§µÈ¼¶£¬ÇëÊäÈë 1£¨ÆÕÍ¨£© 2£¨VIP£© 3£¨SVIP£©¡£¡±£¬È»ºó»»ÐÐ¡£
-//            // TODO£º
-//            if (level != 1 && level != 2 && level != 3) {
-//                printf("ÎÞÐ§µÄÓÃ»§µÈ¼¶£¬ÇëÊäÈë 1£¨ÆÕÍ¨£© 2£¨VIP£© 3£¨SVIP£©¡£\n");
-//                continue;
-//            }
-//            request(&q, name, level);
-//            printf("ÓÃ»§ %s (level=%d) ÒÑ¼ÓÈë¶ÓÁÐ¡£\n", name, level);
-//
-//        }
-//        else if (strcmp(command, "Download") == 0) {
-//            download(&q);
-//
-//        }
-//        else if (strcmp(command, "Remove") == 0) {
-//            scanf("%s", name);
-//            removeUser(&q, name);
-//
-//        }
-//        else if (strcmp(command, "Display") == 0) {
-//            display(&q);
-//
-//        }
-//        else if (strcmp(command, "Exit") == 0) {
-//            printf("³ÌÐòÒÑÍË³ö¡£\n");
-//            break;
-//        }
-//        // ÍêÉÆ´úÂëÂß¼­£¬µ±ÊäÈëÎÞÐ§ÃüÁîÊ±£¬ÇëÊä³ö¡°ÎÞÐ§ÃüÁî£¬ÇëÖØÐÂÊäÈë¡£¡±£¬È»ºó»»ÐÐ
-//        // TODO£º
-//        else {
-//            printf("ÎÞÐ§ÃüÁî£¬ÇëÖØÐÂÊäÈë¡£\n");
-//        }
-//    }
-//
-//    return 0;
-//}
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// ï¿½Ã»ï¿½ï¿½Úµã¶¨ï¿½ï¿½
+typedef struct Node {
+   char name[50];
+   int level; // 1=ï¿½ï¿½Í¨, 2=VIP, 3=SVIP
+   struct Node* next;
+} Node;
+
+// ï¿½ï¿½ï¿½Ð½á¹¹ï¿½ï¿½
+typedef struct Queue {
+   Node* front;
+   Node* rear;
+} Queue;
+
+// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½q-ï¿½ï¿½ï¿½ï¿½
+void initQueue(Queue* q) {
+   // TODOï¿½ï¿½ï¿½ï¿½É¶ï¿½ï¿½Ð³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½Í·ï¿½ï¿½front,ï¿½ï¿½Î²ï¿½ï¿½rearï¿½ï¿½Ê¾
+   q->front = NULL;
+   q->rear = NULL;
+}
+
+// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
+Node* createNode(const char* name, int level) {
+   Node* newNode = NULL;
+   newNode = (Node*)malloc(sizeof(Node));
+   if (newNode == NULL) {
+       printf("No enough memory to allocate!");
+       exit(0);
+   }
+   strcpy(newNode->name, name);
+   newNode->level = level;
+   newNode->next = NULL;
+   return newNode;
+}
+
+// Requestï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ë£©
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½q-ï¿½ï¿½ï¿½Ð£ï¿½name-ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½level-ï¿½È¼ï¿½
+void request(Queue* q, const char* name, int level) {
+   Node* newNode = createNode(name, level);
+   Node* p = NULL;
+   Node* pr = NULL;
+   // ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½Ö±ï¿½Ó¼ï¿½ï¿½ï¿½
+   if (q->front == NULL) {
+       // TODOï¿½ï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½Îªï¿½Õµï¿½ï¿½ß¼ï¿½
+       q->front = newNode;
+       q->rear = newNode;
+       return;
+   }
+   // ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ßµÈ¼ï¿½ï¿½ï¿½ï¿½ÚµÍµÈ¼ï¿½ï¿½Ã»ï¿½Ç°ï¿½æ£¬Í¬ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½
+   // TODOï¿½ï¿½ï¿½ë°´ï¿½Õ¸Ã²ï¿½ï¿½Öµï¿½Òªï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½
+   p = q->front;
+   pr = p;
+   while (p != NULL && newNode->level <= p->level) {
+       pr = p;
+       p = p->next;
+   }
+
+   if (p == q->front) {
+       newNode->next = q->rear;
+       q->front = newNode;
+   }
+   else if (p == NULL) {
+       pr->next = newNode;
+       q->rear = newNode;
+   }
+   else {
+       newNode->next = p;
+       pr->next = newNode;
+   }
+}
+
+// Downloadï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½q-ï¿½ï¿½ï¿½ï¿½
+void download(Queue* q) {
+   if (q->front == NULL) {
+       printf("ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½Ã»ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½\n");
+       return;
+   }
+   Node* temp = q->front;
+   printf("ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½%s (level=%d)\n", temp->name, temp->level);
+   //TODOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Øµï¿½ï¿½ß¼ï¿½
+   q->front = q->front->next;
+   if (q->front == NULL) {
+       q->rear = NULL;
+   }
+   free(temp);
+}
+
+// Removeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ã»ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½q-ï¿½ï¿½ï¿½Ð£ï¿½name-ï¿½Ã»ï¿½ï¿½ï¿½
+void removeUser(Queue* q, const char* name) {
+   if (q->front == NULL) {
+       printf("ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½ï¿½Þ·ï¿½É¾ï¿½ï¿½ï¿½ï¿½\n");
+       return;
+   }
+   Node* prev = NULL;
+   Node* curr = q->front;
+   while (curr != NULL && strcmp(curr->name, name) != 0) {
+       // TODOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ã»ï¿½Î»ï¿½Ãµï¿½ï¿½ß¼ï¿½
+       prev = curr;
+       curr = curr->next;
+   }
+   if (curr == NULL) {
+       printf("Î´ï¿½Òµï¿½ï¿½Ã»ï¿½ï¿½ï¿½%s\n", name);
+       return;
+   }
+   // É¾ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½×¢ï¿½â¿¼ï¿½Ç¶ï¿½Í·ï¿½Í¶ï¿½Î²ï¿½ï¿½ï¿½ï¿½ï¿½
+   // TODOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¸Ã²ï¿½ï¿½Ö´ï¿½ï¿½ï¿½
+   if (curr == q->front) {
+       q->front = curr->next;
+   }
+   else if (curr == q->rear) {
+       prev->next = NULL;
+       q->rear = prev;
+   }
+   else {
+       prev->next = curr->next;
+   }
+   free(curr);
+   printf("ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½%s\n", name);
+}
+
+// Displayï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½q-ï¿½ï¿½ï¿½ï¿½
+void display(Queue* q) {
+   if (q->front == NULL) {
+       printf("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ¡ï¿½\n");
+       return;
+   }
+   Node* curr = q->front;
+   printf("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½Ð£ï¿½\n");
+   while (curr != NULL) {
+       printf("ï¿½Ã»ï¿½ï¿½ï¿½: %-10s | level: %d\n", curr->name, curr->level);
+       // TODOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
+       curr = curr->next;
+   }
+}
+
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+int main() {
+   Queue q;
+   initQueue(&q);
+
+   char command[50];
+   char name[50];
+   int level;
+   printf("=== Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ÏµÍ³ ===\n");
+   printf("Ö§ï¿½ï¿½ï¿½ï¿½ï¿½î£ºRequest ï¿½Ã»ï¿½ï¿½ï¿½ level | Download | Remove ï¿½Ã»ï¿½ï¿½ï¿½ | Display | Exit\n");
+   printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î£º\n");
+   while (1) {
+       scanf("%s", command);
+       if (strcmp(command, "Request") == 0) {
+           scanf("%s %d", name, &level);
+           // ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½È¼ï¿½ï¿½Ð¶ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ã»ï¿½ï¿½È¼ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ã»ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ 2ï¿½ï¿½VIPï¿½ï¿½ 3ï¿½ï¿½SVIPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½Ð¡ï¿½
+           // TODOï¿½ï¿½
+           if (level != 1 && level != 2 && level != 3) {
+               printf("ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ã»ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ 2ï¿½ï¿½VIPï¿½ï¿½ 3ï¿½ï¿½SVIPï¿½ï¿½ï¿½ï¿½\n");
+               continue;
+           }
+           request(&q, name, level);
+           printf("ï¿½Ã»ï¿½ %s (level=%d) ï¿½Ñ¼ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½\n", name, level);
+
+       }
+       else if (strcmp(command, "Download") == 0) {
+           download(&q);
+
+       }
+       else if (strcmp(command, "Remove") == 0) {
+           scanf("%s", name);
+           removeUser(&q, name);
+
+       }
+       else if (strcmp(command, "Display") == 0) {
+           display(&q);
+
+       }
+       else if (strcmp(command, "Exit") == 0) {
+           printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½\n");
+           break;
+       }
+       // ï¿½ï¿½ï¿½Æ´ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½î£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¡£ï¿½ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½
+       // TODOï¿½ï¿½
+       else {
+           printf("ï¿½ï¿½Ð§ï¿½ï¿½ï¿½î£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¡£\n");
+       }
+   }
+
+   return 0;
+}

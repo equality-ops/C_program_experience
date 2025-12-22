@@ -1,111 +1,111 @@
-//#define _CRT_SECURE_NO_WARNINGS
-////
-////#include <stdio.h>
-////
-////// º¯ÊýÔ­ÐÍÉùÃ÷(º¯ÊýµÄ¾ßÌåÊµÏÖÐèÒªÄãÔÚÎÄ¼þÄ©Î²Íê³É)
-////void sort_interest(int* interest, int n);
-////
-////int main() {
-////    int n;
-////    scanf("%d", &n);
-////    int interest[100];
-////    for (int i = 0; i < n; i++) {
-////        scanf("%d", &interest[i]);
-////    }
-////    sort_interest(interest, n);
-////    for (int i = 0; i < n; i++) {
-////        if (i > 0) {
-////            printf(" ");
-////        }
-////        printf("%d", interest[i]);
-////    }
-////    printf("\n");
-////    return 0;
-////}
-////
-////// ÄãÐèÒªÊµÏÖµÄº¯Êý
-////void sort_interest(int* interest, int n) {
-////    // ÇëÔÚ´Ë´¦±àÐ´´úÂë
-////    int max = 0;
-////    int i = 0, j = 0;
-////    int k = 0;
-////    for (i = 0; i < n; i++) {
-////        k = i;
-////        max = interest[i];
-////        for (j = i + 1; j < n; j++) {
-////            if (max < interest[j]) {
-////                k = j;
-////                max = interest[j];
-////            }
-////        }
-////        if (k != i) {
-////            int temp;
-////            temp = interest[k];
-////            interest[k] = interest[i];
-////            interest[i] = temp;
-////        }
-////    }
-////}
+#define _CRT_SECURE_NO_WARNINGS
 //
 //#include <stdio.h>
 //
-//// º¯ÊýÔ­ÐÍÉùÃ÷(º¯ÊýµÄ¾ßÌåÊµÏÖÐèÒªÄãÔÚÎÄ¼þÄ©Î²Íê³É)
-//void find_top_k_index(int* interest, int n, int k, int* top_k_index);
+//// ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ä©Î²ï¿½ï¿½ï¿½)
+//void sort_interest(int* interest, int n);
 //
 //int main() {
 //    int n;
 //    scanf("%d", &n);
-//    int k;
-//    scanf("%d", &k);
 //    int interest[100];
 //    for (int i = 0; i < n; i++) {
 //        scanf("%d", &interest[i]);
 //    }
-//    int top_k_index[100];  // Æä³¤¶È¹Ì¶¨Îª 100£¬µ«Êµ¼ÊÉÏÖ»Ðè½«·µ»Ø½á¹ûÐ´Èëµ½ÆäÇ° k ¸öÔªËØ¼´¿É
-//    find_top_k_index(interest, n, k, top_k_index);
-//    for (int i = 0; i < k; i++) {
+//    sort_interest(interest, n);
+//    for (int i = 0; i < n; i++) {
 //        if (i > 0) {
 //            printf(" ");
 //        }
-//        printf("%d", top_k_index[i]);
+//        printf("%d", interest[i]);
 //    }
 //    printf("\n");
 //    return 0;
 //}
 //
-//// ÄãÐèÒªÊµÏÖµÄº¯Êý
-//void find_top_k_index(int* interest, int n, int k, int* top_k_index) {
-//    // Çë½«·µ»Ø½á¹ûÐ´Èëµ½ top_k_index Êý×éÖÐ
-//    // Æä³¤¶È¹Ì¶¨Îª 100£¬µ«Êµ¼ÊÉÏÖ»Ðè½«·µ»Ø½á¹ûÐ´Èëµ½ÆäÇ° k ¸öÔªËØ¼´¿É
-//
-//    // ÇëÔÚ´Ë´¦±àÐ´´úÂë
+//// ï¿½ï¿½ï¿½ï¿½ÒªÊµï¿½ÖµÄºï¿½ï¿½ï¿½
+//void sort_interest(int* interest, int n) {
+//    // ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½
 //    int max = 0;
 //    int i = 0, j = 0;
-//    int p = 0;
-//    int record = 0;
+//    int k = 0;
 //    for (i = 0; i < n; i++) {
-//        p = i;
+//        k = i;
 //        max = interest[i];
 //        for (j = i + 1; j < n; j++) {
 //            if (max < interest[j]) {
-//                p = j;
+//                k = j;
 //                max = interest[j];
 //            }
 //        }
-//
-//        if (record < k) {
-//            top_k_index[record] = p;
-//            record++;
-//        }
-//        else {
-//            return;
-//        }
-//
-//        if (p != i) {
-//            int temp = interest[p];
-//            interest[p] = interest[i];
+//        if (k != i) {
+//            int temp;
+//            temp = interest[k];
+//            interest[k] = interest[i];
 //            interest[i] = temp;
 //        }
 //    }
 //}
-//
+
+#include <stdio.h>
+
+// ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ä©Î²ï¿½ï¿½ï¿½)
+void find_top_k_index(int* interest, int n, int k, int* top_k_index);
+
+int main() {
+   int n;
+   scanf("%d", &n);
+   int k;
+   scanf("%d", &k);
+   int interest[100];
+   for (int i = 0; i < n; i++) {
+       scanf("%d", &interest[i]);
+   }
+   int top_k_index[100];  // ï¿½ä³¤ï¿½È¹Ì¶ï¿½Îª 100ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ö»ï¿½è½«ï¿½ï¿½ï¿½Ø½ï¿½ï¿½Ð´ï¿½ëµ½ï¿½ï¿½Ç° k ï¿½ï¿½Ôªï¿½Ø¼ï¿½ï¿½ï¿½
+   find_top_k_index(interest, n, k, top_k_index);
+   for (int i = 0; i < k; i++) {
+       if (i > 0) {
+           printf(" ");
+       }
+       printf("%d", top_k_index[i]);
+   }
+   printf("\n");
+   return 0;
+}
+
+// ï¿½ï¿½ï¿½ï¿½ÒªÊµï¿½ÖµÄºï¿½ï¿½ï¿½
+void find_top_k_index(int* interest, int n, int k, int* top_k_index) {
+   // ï¿½ë½«ï¿½ï¿½ï¿½Ø½ï¿½ï¿½Ð´ï¿½ëµ½ top_k_index ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   // ï¿½ä³¤ï¿½È¹Ì¶ï¿½Îª 100ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ö»ï¿½è½«ï¿½ï¿½ï¿½Ø½ï¿½ï¿½Ð´ï¿½ëµ½ï¿½ï¿½Ç° k ï¿½ï¿½Ôªï¿½Ø¼ï¿½ï¿½ï¿½
+
+   // ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½
+   int max = 0;
+   int i = 0, j = 0;
+   int p = 0;
+   int record = 0;
+   for (i = 0; i < n; i++) {
+       p = i;
+       max = interest[i];
+       for (j = i + 1; j < n; j++) {
+           if (max < interest[j]) {
+               p = j;
+               max = interest[j];
+           }
+       }
+
+       if (record < k) {
+           top_k_index[record] = p;
+           record++;
+       }
+       else {
+           return;
+       }
+
+       if (p != i) {
+           int temp = interest[p];
+           interest[p] = interest[i];
+           interest[i] = temp;
+       }
+   }
+}
+

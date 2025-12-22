@@ -1,212 +1,212 @@
-//#define _CRT_SECURE_NO_WARNINGS
-//
-//#include<stdio.h>
-//#include<stdlib.h>
-//#include<time.h>
-//
-//struct linked_list {
-//	int data;
-//	struct linked_list* next;
-//};
-//
-//struct queue {
-//	struct linked_list* front;
-//	struct linked_list* rear;
-//	int size;
-//};
-//
-//void Init_queue(struct queue* queue);
-//void Enqueue(struct queue* queue, int notedata);
-//int Dequeue(struct queue* queue, int* notedata);
-//struct linked_list* append_list(struct linked_list* head, int data);
-//struct linked_list* delete_list(struct linked_list* head, int aimed_data);
-//struct linked_list* delete_list_In_recursion(struct linked_list* head, int aimed_data);
-//int find_list(struct linked_list* head, int k);
-//void free_memeory(struct linked_list* head);
-//int main() {
-//	int n;
-//	int x; // É¾³ýµÄÄ¿±ê½ÚµãµÄÊý¾ÝÓò
-//	int k; // µ¹ÊýµÚk¸ö½Úµã
-//	int notedata; // ³ö¶ÓÊ±´¢´æÊý¾ÝµÄÈÝÆ÷
-//	int result; // µ¹ÊýµÚk¸ö½ÚµãµÄÖµ
-//	struct linked_list* head = NULL;
-//	struct linked_list* temp = NULL;
-//	struct queue* queue = NULL;
-//	queue = (struct queue*)calloc(1, sizeof(struct queue));
-//	Init_queue(queue);
-//	srand(time(NULL)); // ÉèÖÃËæ»úÊýÖÖ×Ó
-//	printf("ÇëÊäÈëÄãÏëÒª´´½¨µÄÊý×éµÄÔªËØ¸öÊý£º");
-//	scanf("%d", &n);
-//	for (int i = 0; i < n; i++) {
-//		int data = rand() % 10 + 1;
-//		Enqueue(queue, data);
-//	}
-//	if (queue->front->next == NULL) {
-//		printf("¸ÃÊý×éÎª¿Õ£¡");
-//		exit(0);
-//	}
-//	temp = queue->front->next;
-//	printf("µ±Ç°º¬%d¸öÔªËØµÄÊý×éÎª£º", queue->size);
-//	while (temp != NULL) {
-//		printf("%d ", temp->data);
-//		temp = temp->next;
-//	}
-//	printf("\n»ñÈ¡¶ÓÊ×µÄÒ»¸öÔªËØ£º");
-//	if (Dequeue(queue, &notedata)) {
-//		printf("%d", notedata);
-//	}
-//	temp = queue->front->next;
-//	printf("³ö¶ÓºóµÄÊý×éÎª£º", queue->size);
-//	while (temp != NULL) {
-//		printf("%d ", temp->data);
-//		temp = temp->next;
-//	}
-//	free_memeory(queue->front);
-//	return 0;
-//}
-//
-//struct linked_list* append_list(struct linked_list* head, int data) {
-//	struct linked_list* p = NULL;
-//	struct linked_list* pr = head;
-//	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
-//	if (p == NULL) {
-//		printf("No enough memory to allocate!");
-//		exit(0);
-//	}
-//	if (head == NULL) {
-//		head = p;
-//	}
-//	else {
-//		while (pr->next != NULL) {
-//			pr = pr->next;
-//		}
-//		pr->next = p;
-//	}
-//	p->data = data;
-//	p->next = NULL;
-//	return head;
-//}
-//
-//// ·ÇµÝ¹é·½Ê½É¾³ýÁ´±íÖÐËùÓÐÖµÎªxµÄ½Úµã
-//struct linked_list* delete_list(struct linked_list* head, int aimed_data) {
-//	struct linked_list* p = head;
-//	struct linked_list* pr = p;
-//	while (p != NULL) {
-//		if (p->data == aimed_data) {
-//			if (p == head) {
-//				head = p->next;
-//				free(p);
-//				p = head;
-//				continue;
-//			}
-//			else {
-//				pr->next = p->next;
-//				free(p);
-//				p = pr->next;
-//				continue;
-//			}
-//		}
-//		pr = p;
-//		p = p->next;
-//	}
-//	return head;
-//}
-//
-//// µÝ¹éÉ¾³ýÁ´±íÖÐËùÓÐÖµÎªaimed_dataµÄ½Úµã£¬·µ»ØÐÂµÄÍ·Ö¸Õë
-//struct linked_list* delete_list_In_recursion(struct linked_list* head, int aimed_data) {
-//	if (head == NULL) {
-//		return NULL;
-//	}
-//
-//	// ÏÈµÝ¹é´¦ÀíºóÐø½Úµã
-//	head->next = delete_list_In_recursion(head->next, aimed_data);
-//
-//	// ÔÙ´¦Àíµ±Ç°½Úµã
-//	if (head->data == aimed_data) {
-//		struct linked_list* temp = head->next;
-//		free(head);
-//		return temp;  // ·µ»ØÏÂÒ»¸ö½Úµã×÷ÎªÐÂµÄÍ·
-//	}
-//
-//	return head;  // µ±Ç°½Úµã²»ÐèÒªÉ¾³ý
-//}
-//
-//// ÊÍ·ÅËùÓÐÕ¼ÓÐµÄÄÚ´æ¿Õ¼ä
-//void free_memeory(struct linked_list* head) {
-//	struct linked_list* p = head;
-//	struct linked_list* pr = p;
-//	while (p != NULL) {
-//		pr = p;
-//		p = p->next;
-//		free(pr);
-//	}
-//}
-//
-//// º¯ÊýËµÃ÷£ºÑ°ÕÒµ¹ÊýµÚk¸ö½Úµã²¢·µ»ØÆäÊý¾ÝÓò£¬ÕÒ²»µ½Ôò·µ»Ø-1
-//int find_list(struct linked_list* head, int k) {
-//	struct linked_list* fast = head;
-//	struct linked_list* slow = NULL;
-//	int count = 0;
-//	while (fast != NULL) {
-//		fast = fast->next;
-//		if (count >= k - 1) {
-//			if (slow == NULL) {
-//				slow = head;
-//			}
-//			else {
-//				slow = slow->next;
-//			}
-//		}
-//		count++;
-//	}
-//	if (slow == NULL) {
-//		return -1;
-//	}
-//	else {
-//		return slow->data;
-//	}
-//}
-//
-//// º¯ÊýËµÃ÷£º³õÊ¼»¯¶ÓÁÐ
-//void Init_queue(struct queue* queue) {
-//	struct linked_list* p = NULL;
-//	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
-//	if (p == NULL) {
-//		printf("No enough memor to allocate!");
-//		exit(0);
-//	}
-//	p->data = 0;
-//	p->next = NULL;
-//	queue->front = p;
-//	queue->rear = p;
-//	queue->size = 0;
-//}
-//
-//// Èë¶ÓÁÐ
-//void Enqueue(struct queue* queue, int notedata) {
-//	struct linked_list* p = NULL;
-//	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
-//	if (p == NULL) {
-//		printf("No enough memor to allocate!");
-//		exit(0);
-//	}
-//	queue->rear->next = p;
-//	queue->rear = p;
-//	p->data = notedata;
-//	p->next = NULL;
-//	queue->size++;
-//}
-//
-//// ³ö¶ÓÁÐ
-//int Dequeue(struct queue* queue, int* notedata) {
-//	struct linked_list* temp = NULL;
-//	if (queue->front == queue->rear) {
-//		return -1;
-//	}
-//	temp = queue->front;
-//	*notedata = queue->front->next->data;
-//	queue->front = queue->front->next;
-//	free(temp);
-//	queue->size--;
-//	return 1;
-//}
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+
+struct linked_list {
+	int data;
+	struct linked_list* next;
+};
+
+struct queue {
+	struct linked_list* front;
+	struct linked_list* rear;
+	int size;
+};
+
+void Init_queue(struct queue* queue);
+void Enqueue(struct queue* queue, int notedata);
+int Dequeue(struct queue* queue, int* notedata);
+struct linked_list* append_list(struct linked_list* head, int data);
+struct linked_list* delete_list(struct linked_list* head, int aimed_data);
+struct linked_list* delete_list_In_recursion(struct linked_list* head, int aimed_data);
+int find_list(struct linked_list* head, int k);
+void free_memeory(struct linked_list* head);
+int main() {
+	int n;
+	int x; // É¾ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int k; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Úµï¿½
+	int notedata; // ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½
+	int result; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Úµï¿½ï¿½Öµ
+	struct linked_list* head = NULL;
+	struct linked_list* temp = NULL;
+	struct queue* queue = NULL;
+	queue = (struct queue*)calloc(1, sizeof(struct queue));
+	Init_queue(queue);
+	srand(time(NULL)); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½");
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++) {
+		int data = rand() % 10 + 1;
+		Enqueue(queue, data);
+	}
+	if (queue->front->next == NULL) {
+		printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½");
+		exit(0);
+	}
+	temp = queue->front->next;
+	printf("ï¿½ï¿½Ç°ï¿½ï¿½%dï¿½ï¿½Ôªï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½", queue->size);
+	while (temp != NULL) {
+		printf("%d ", temp->data);
+		temp = temp->next;
+	}
+	printf("\nï¿½ï¿½È¡ï¿½ï¿½ï¿½×µï¿½Ò»ï¿½ï¿½Ôªï¿½Ø£ï¿½");
+	if (Dequeue(queue, &notedata)) {
+		printf("%d", notedata);
+	}
+	temp = queue->front->next;
+	printf("ï¿½ï¿½ï¿½Óºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½", queue->size);
+	while (temp != NULL) {
+		printf("%d ", temp->data);
+		temp = temp->next;
+	}
+	free_memeory(queue->front);
+	return 0;
+}
+
+struct linked_list* append_list(struct linked_list* head, int data) {
+	struct linked_list* p = NULL;
+	struct linked_list* pr = head;
+	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
+	if (p == NULL) {
+		printf("No enough memory to allocate!");
+		exit(0);
+	}
+	if (head == NULL) {
+		head = p;
+	}
+	else {
+		while (pr->next != NULL) {
+			pr = pr->next;
+		}
+		pr->next = p;
+	}
+	p->data = data;
+	p->next = NULL;
+	return head;
+}
+
+// ï¿½ÇµÝ¹é·½Ê½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎªxï¿½Ä½Úµï¿½
+struct linked_list* delete_list(struct linked_list* head, int aimed_data) {
+	struct linked_list* p = head;
+	struct linked_list* pr = p;
+	while (p != NULL) {
+		if (p->data == aimed_data) {
+			if (p == head) {
+				head = p->next;
+				free(p);
+				p = head;
+				continue;
+			}
+			else {
+				pr->next = p->next;
+				free(p);
+				p = pr->next;
+				continue;
+			}
+		}
+		pr = p;
+		p = p->next;
+	}
+	return head;
+}
+
+// ï¿½Ý¹ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎªaimed_dataï¿½Ä½Úµã£¬ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Í·Ö¸ï¿½ï¿½
+struct linked_list* delete_list_In_recursion(struct linked_list* head, int aimed_data) {
+	if (head == NULL) {
+		return NULL;
+	}
+
+	// ï¿½ÈµÝ¹é´¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
+	head->next = delete_list_In_recursion(head->next, aimed_data);
+
+	// ï¿½Ù´ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Úµï¿½
+	if (head->data == aimed_data) {
+		struct linked_list* temp = head->next;
+		free(head);
+		return temp;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Îªï¿½Âµï¿½Í·
+	}
+
+	return head;  // ï¿½ï¿½Ç°ï¿½Úµã²»ï¿½ï¿½ÒªÉ¾ï¿½ï¿½
+}
+
+// ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Ðµï¿½ï¿½Ú´ï¿½Õ¼ï¿½
+void free_memeory(struct linked_list* head) {
+	struct linked_list* p = head;
+	struct linked_list* pr = p;
+	while (p != NULL) {
+		pr = p;
+		p = p->next;
+		free(pr);
+	}
+}
+
+// ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ñ°ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Úµã²¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½-1
+int find_list(struct linked_list* head, int k) {
+	struct linked_list* fast = head;
+	struct linked_list* slow = NULL;
+	int count = 0;
+	while (fast != NULL) {
+		fast = fast->next;
+		if (count >= k - 1) {
+			if (slow == NULL) {
+				slow = head;
+			}
+			else {
+				slow = slow->next;
+			}
+		}
+		count++;
+	}
+	if (slow == NULL) {
+		return -1;
+	}
+	else {
+		return slow->data;
+	}
+}
+
+// ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+void Init_queue(struct queue* queue) {
+	struct linked_list* p = NULL;
+	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
+	if (p == NULL) {
+		printf("No enough memor to allocate!");
+		exit(0);
+	}
+	p->data = 0;
+	p->next = NULL;
+	queue->front = p;
+	queue->rear = p;
+	queue->size = 0;
+}
+
+// ï¿½ï¿½ï¿½ï¿½ï¿½
+void Enqueue(struct queue* queue, int notedata) {
+	struct linked_list* p = NULL;
+	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
+	if (p == NULL) {
+		printf("No enough memor to allocate!");
+		exit(0);
+	}
+	queue->rear->next = p;
+	queue->rear = p;
+	p->data = notedata;
+	p->next = NULL;
+	queue->size++;
+}
+
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+int Dequeue(struct queue* queue, int* notedata) {
+	struct linked_list* temp = NULL;
+	if (queue->front == queue->rear) {
+		return -1;
+	}
+	temp = queue->front;
+	*notedata = queue->front->next->data;
+	queue->front = queue->front->next;
+	free(temp);
+	queue->size--;
+	return 1;
+}

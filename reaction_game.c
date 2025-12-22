@@ -1,225 +1,291 @@
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
-//#include <time.h>
-//
-//#ifdef _WIN32
-//#include <windows.h>    // Sleep()
-//#else
-//#include <unistd.h>     // sleep()
-//#endif
-//
-//#define MAX_RECORDS 100
-//#define SCORE_FILE  "score.txt"
-//
-///* Ò»Ìõ³É¼¨¼ÇÂ¼ */
-//typedef struct
-//{
-//    char name[20];      // ĞÕÃû£¨²»º¬¿Õ¸ñ£©
-//    int  ms;                // ·´Ó¦Ê±¼ä£¨ºÁÃë£©
-//    char date[11];      // ÈÕÆÚ£ºYYYY-MM-DD ×Ö·û´®£¨10+1£©
-//    char time_str[9];   // Ê±¼ä£ºHH:MM:SS ×Ö·û´®£¨8+1£©
-//} Record;
-//
-///* º¯ÊıÉùÃ÷ */
-//void clear_input_buffer(void);
-//int  load_records(Record rec[], int max_count);
-//void show_records(const Record rec[], int count);
-//int  play_game(void);
-//int add_record(Record rec[], int* count, int ms);
-//void wait_random_seconds(int min_s, int max_s);
-//
-//int main(void)
-//{
-//    Record records[MAX_RECORDS];
-//    int count;
-//    int choice;
-//
-//    // Ëæ»úÊıÖÖ×Ó£ºÓÃÓÚËæ»úµÈ´ıÊ±¼ä
-//    srand((unsigned int)time(NULL));
-//
-//    // 1. Æô¶¯Ê±´Ó score.txt ¶ÁÈëÀúÊ·³É¼¨
-//    count = load_records(records, MAX_RECORDS);
-//    printf("Loaded %d records from %s.\n\n", count, SCORE_FILE);
-//
-//    // 2. ²Ëµ¥Ñ­»·
-//    while (1)
-//    {
-//        printf("---------- Reaction Time Test ----------\n");
-//        printf("1. Start game\n");
-//        printf("2. Show records\n");
-//        printf("0. Quit\n");
-//        printf("Please choose: ");
-//
-//        if (scanf("%d", &choice) != 1)
-//        {
-//            printf("Invalid input, please try again.\n");
-//            clear_input_buffer();
-//            continue;
-//        }
-//        clear_input_buffer();   // ³ÔµôĞĞÎ²µÄ»Ø³µ
-//
-//        if (choice == 0)
-//        {
-//            printf("Bye.\n");
-//            break;
-//        }
-//
-//        if (choice == 1)
-//        {
-//            // 3. ÍæÒ»¾ÖÓÎÏ·£¬µÃµ½·´Ó¦Ê±¼ä T£¨ºÁÃë£©
-//            int ms = play_game();
-//            if (ms < 0)
-//            {
-//                printf("Game failed, please try again.\n");
-//                continue;
-//            }
-//
-//            printf("Save this record? (y/n): ");
-//            int ch = getchar();
-//            clear_input_buffer();
-//
-//            if (ch == 'y' || ch == 'Y')
-//            {
-//                // 4. ×·¼Ó¼ÇÂ¼µ½ÄÚ´æºÍÎÄ¼şÖĞ
-//                if (add_record(records, &count, ms) == 1)
-//                    printf("Record saved.\n");
-//                else
-//                    printf("Failed to save record.\n");
-//            }
-//        }
-//        else if (choice == 2)
-//        {
-//            // 5. ²é¿´³É¼¨ÁĞ±í
-//            show_records(records, count);
-//        }
-//        else
-//        {
-//            printf("Invalid choice, please try again.\n");
-//        }
-//
-//        printf("\n");
-//    }
-//
-//    return 0;
-//}
-//
-///* Çå¿ÕÊäÈë»º³åÇø£º±£Ö¤ºóÃæµÄ getchar ²»»á¶Áµ½²ĞÁôµÄ»Ø³µ */
-//void clear_input_buffer(void)
-//{
-//    int c;
-//    while ((c = getchar()) != '\n' && c != EOF)
-//    {
-//        /* ¶ªÆú¶àÓà×Ö·û */
-//    }
-//}
-//
-///* Ëæ»úµÈ´ı min_s ~ max_s Ãë */
-//void wait_random_seconds(int min_s, int max_s)
-//{
-//    int delay = rand() % (max_s - min_s + 1) + min_s;
-//#ifdef _WIN32
-//    Sleep(delay * 1000);
-//#else
-//    sleep(delay);
-//#endif
-//}
-//
-///* Ò»¾ÖÓÎÏ·£ºËæ»úµÈ´ı + ¼ÆÊ±
-//   ·µ»Ø·´Ó¦Ê±¼ä£¨ºÁÃë£©£¬³ö´íÊ±·µ»Ø -1 */
-//int play_game(void)
-//{
-//    int ch;
-//    clock_t start, end;
-//    double elapsed_ms;
-//
-//    printf("\n(Waiting randomly, please do NOT press anything...)\n");
-//    wait_random_seconds(1, 3);
-//
-//    printf("Now press Enter!\n");
-//    fflush(stdout);   // È·±£ÌáÊ¾Á¢¿ÌÏÔÊ¾
-//
-//    // ¿ªÊ¼¼ÆÊ±
-//    start = clock();
-//
-//    // µÈ´ıÍæ¼Ò°´ÏÂ Enter£¨¶Áµ½ '\n' ½áÊø£©
-//    while ((ch = getchar()) != '\n' && ch != EOF)
-//    {
-//        // Ê²Ã´Ò²²»×ö£¬Ö»ÊÇµÈ´ı»Ø³µ
-//    }
-//
-//    end = clock();
-//
-//    elapsed_ms = (double)(end - start) * 1000.0 / CLOCKS_PER_SEC;
-//    printf("Your reaction time: %.0f ms.\n", elapsed_ms);
-//
-//    if (elapsed_ms < 0)
-//    {
-//        return -1;
-//    }
-//    return (int)(elapsed_ms + 0.5);  // ËÄÉáÎåÈë
-//}
-//
-///* =========================================================
-//   TODO-1: load_records
-//   ¹¦ÄÜ£º
-//     ´Ó³É¼¨ÎÄ¼ş SCORE_FILE£¨ÎÄ±¾¸ñÊ½£©ÖĞ¶ÁÈ¡ÀúÊ·¼ÇÂ¼£¬
-//     Ìî³äµ½¼ÇÂ¼Êı×é rec ÖĞ£¬²¢·µ»Ø¶ÁÈ¡ÌõÊı¡£
-//
-//   ²ÎÊı£º
-//     rec       - ¼ÇÂ¼Êı×é£¨Êä³ö£©£»
-//     max_count - Êı×éÈİÁ¿ÉÏÏŞ¡£
-//
-//   ·µ»ØÖµ£º
-//     ³É¹¦¶ÁÈ¡µÄ¼ÇÂ¼ÌõÊı£¨0 ±íÊ¾Ã»ÓĞ¼ÇÂ¼»òÎÄ¼ş²»´æÔÚ£©¡£
-//
-//   ÎÄ¼ş¸ñÊ½£¨Ã¿ĞĞ£©£º
-//     name ms YYYY-MM-DD HH:MM:SS
-//     ÀıÈç£ºAlice 320 2025-11-29 14:03:59
-//   ========================================================= */
-//int load_records(Record rec[], int max_count)
-//{
-//
-//    int count = 0;
-//    // TODO-1: ÔÚ´Ë´¦ÊµÏÖ´ÓÎÄ¼ş¶ÁÈ¡¼ÇÂ¼µ½ rec[] ÖĞµÄÂß¼­
-//
-//    return count;
-//}
-//
-///* =========================================================
-//   TODO-2: show_records
-//   ¹¦ÄÜ£º
-//     ÒÔ±í¸ñĞÎÊ½ÔÚÆÁÄ»ÉÏÊä³öËùÓĞ³É¼¨¼ÇÂ¼¡£
-//     Ã¿ĞĞÏÔÊ¾£º±àºÅ¡¢ĞÕÃû¡¢·´Ó¦Ê±¼ä£¨ºÁÃë£©¡¢¼ÇÂ¼Ê±¼ä¡£
-//
-//   ²ÎÊı£º
-//     rec   - ¼ÇÂ¼Êı×é£»
-//     count - ÓĞĞ§¼ÇÂ¼ÌõÊı¡£
-//
-//   ·µ»ØÖµ£º
-//     ÎŞ£¨void£©¡£
-//   ========================================================= */
-//void show_records(const Record rec[], int count)
-//{
-//    // TODO-2: ÔÚ´Ë´¦ÊµÏÖ±éÀúÊı×é²¢¸ñÊ½»¯Êä³öµÄÂß¼­
-//}
-//
-///* =========================================================
-//   add_record
-//  ¹¦ÄÜ£º
-//     ÏòÊı×éÄ©Î²×·¼ÓÒ»ÌõĞÂ¼ÇÂ¼£¬²¢Ğ´Èë score.txt¡£
-//
-//   ²ÎÊı£º
-//     rec[]   - ¼ÇÂ¼Êı×é£¨ÊäÈë / Êä³ö£©
-//     count   - µ±Ç°¼ÇÂ¼ÊıµÄÖ¸Õë
-//     ms      - ±¾´Î·´Ó¦Ê±¼ä£¨ºÁÃë£©
-//
-//   ·µ»ØÖµ£º
-//     1   ±íÊ¾³É¹¦×·¼Ó1Ìõ¼ÇÂ¼
-//    -1   ±íÊ¾·¢ÉúÒì³££¨Êı×éÒÑÂú¡¢ÊäÈë´íÎó¡¢ÎÄ¼şĞ´ÈëÊ§°Ü£©
-//   ========================================================= */
-//int add_record(Record rec[], int* count, int ms)
-//{
-//    // TODO-3: ÔÚ´Ë´¦ÊµÏÖ×·¼Ó¼ÇÂ¼²¢Ğ´ÈëÎÄ¼şµÄÂß¼­
-//    return -1;
-//}
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#ifdef _WIN32
+#include <windows.h>    // Sleep()
+#else
+#include <unistd.h>     // sleep()
+#endif
+
+#define MAX_RECORDS 100
+#define SCORE_FILE  "score.txt"
+
+/* ä¸€æ¡æˆç»©è®°å½• */
+typedef struct
+{
+    char name[20];      // å§“åï¼ˆä¸å«ç©ºæ ¼ï¼‰
+    int  ms;                // ååº”æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
+    char date[11];      // æ—¥æœŸï¼šYYYY-MM-DD å­—ç¬¦ä¸²ï¼ˆ10+1ï¼‰
+    char time_str[9];   // æ—¶é—´ï¼šHH:MM:SS å­—ç¬¦ä¸²ï¼ˆ8+1ï¼‰
+} Record;
+
+/* å‡½æ•°å£°æ˜ */
+void clear_input_buffer(void);
+int  load_records(Record rec[], int max_count);
+void show_records(const Record rec[], int count);
+int  play_game(void);
+int add_record(Record rec[], int* count, int ms, char date[], char time_str[]);
+void wait_random_seconds(int min_s, int max_s);
+
+int main(void)
+{
+    Record records[MAX_RECORDS];
+    int count;
+    int choice;
+    char date[11] = { 0 };
+    char time_str[9] = { 0 };
+
+    // éšæœºæ•°ç§å­ï¼šç”¨äºéšæœºç­‰å¾…æ—¶é—´
+    srand((unsigned int)time(NULL));
+
+    time_t now = time(NULL);
+    struct tm* local_time = NULL;
+    
+    // 1. å¯åŠ¨æ—¶ä» score.txt è¯»å…¥å†å²æˆç»©
+    count = load_records(records, MAX_RECORDS);
+    printf("Loaded %d records from %s.\n\n", count, SCORE_FILE);
+
+    // 2. èœå•å¾ªç¯
+    while (1)
+    {
+        printf("---------- Reaction Time Test ----------\n");
+        printf("1. Start game\n");
+        printf("2. Show records\n");
+        printf("0. Quit\n");
+        printf("Please choose: ");
+
+        if (scanf("%d", &choice) != 1)
+        {
+            printf("Invalid input, please try again.\n");
+            clear_input_buffer();
+            continue;
+        }
+        clear_input_buffer();   // åƒæ‰è¡Œå°¾çš„å›è½¦
+
+        if (choice == 0)
+        {
+            printf("Do you need to clear the records? (y/n):");
+            int ch = getchar();
+            clear_input_buffer();
+            if (ch == 'y' || ch == 'Y') {
+                FILE* score;
+                if ((score = fopen("D:\\Users\\C_PROGRAMMING\\reaction_game\\score.txt", "w")) == NULL) {
+                    printf("Failure to open score.txt to clear it!");
+                    exit(0);
+                }
+                fclose(score);
+            }
+
+            printf("Bye.\n");
+            break;
+        }
+
+        if (choice == 1)
+        {
+            // 3. ç©ä¸€å±€æ¸¸æˆï¼Œå¾—åˆ°ååº”æ—¶é—´ Tï¼ˆæ¯«ç§’ï¼‰
+            int ms = play_game();
+            if (ms < 0)
+            {
+                printf("Game failed, please try again.\n");
+                continue;
+            }
+
+            printf("Save this record? (y/n): ");
+            int ch = getchar();
+            clear_input_buffer();
+
+            if (ch == 'y' || ch == 'Y')
+            {
+                // 4. è¿½åŠ è®°å½•åˆ°å†…å­˜å’Œæ–‡ä»¶ä¸­
+                // è·å–å½“å‰æ—¶é—´
+                local_time = localtime(&now);
+                sprintf(date, "%04d-%02d-%02d", local_time->tm_year + 1900, local_time->tm_mon + 1, local_time->tm_mday);
+                sprintf(time_str, "%02d:%02d:%02d", local_time->tm_hour, local_time->tm_min, local_time->tm_sec);
+                
+                if (add_record(records, &count, ms, date, time_str) == 1)
+                    printf("Record saved.\n");
+                else
+                    printf("Failed to save record.\n");
+            }
+        }
+        else if (choice == 2)
+        {
+            // 5. æŸ¥çœ‹æˆç»©åˆ—è¡¨
+            show_records(records, count);
+        }
+        else
+        {
+            printf("Invalid choice, please try again.\n");
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
+
+/* æ¸…ç©ºè¾“å…¥ç¼“å†²åŒºï¼šä¿è¯åé¢çš„ getchar ä¸ä¼šè¯»åˆ°æ®‹ç•™çš„å›è½¦ */
+void clear_input_buffer(void)
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+    {
+        /* ä¸¢å¼ƒå¤šä½™å­—ç¬¦ */
+    }
+}
+
+/* éšæœºç­‰å¾… min_s ~ max_s ç§’ */
+void wait_random_seconds(int min_s, int max_s)
+{
+    int delay = rand() % (max_s - min_s + 1) + min_s;
+#ifdef _WIN32
+    Sleep(delay * 1000);
+#else
+    sleep(delay);
+#endif
+}
+
+/* ä¸€å±€æ¸¸æˆï¼šéšæœºç­‰å¾… + è®¡æ—¶
+   è¿”å›ååº”æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ï¼Œå‡ºé”™æ—¶è¿”å› -1 */
+int play_game(void)
+{
+    int ch;
+    clock_t start, end;
+    double elapsed_ms;
+
+    printf("\n(Waiting randomly, please do NOT press anything...)\n");
+    wait_random_seconds(1, 3);
+
+    printf("Now press Enter!\n");
+    fflush(stdout);   // ç¡®ä¿æç¤ºç«‹åˆ»æ˜¾ç¤º
+
+    // å¼€å§‹è®¡æ—¶
+    start = clock();
+
+    // ç­‰å¾…ç©å®¶æŒ‰ä¸‹ Enterï¼ˆè¯»åˆ° '\n' ç»“æŸï¼‰
+    while ((ch = getchar()) != '\n' && ch != EOF)
+    {
+        // ä»€ä¹ˆä¹Ÿä¸åšï¼Œåªæ˜¯ç­‰å¾…å›è½¦
+    }
+
+    end = clock();
+
+    elapsed_ms = (double)(end - start) * 1000.0 / CLOCKS_PER_SEC;
+    printf("Your reaction time: %.0f ms.\n", elapsed_ms);
+
+    if (elapsed_ms < 0)
+    {
+        return -1;
+    }
+    return (int)(elapsed_ms + 0.5);  // å››èˆäº”å…¥
+}
+
+/* =========================================================
+   TODO-1: load_records
+   åŠŸèƒ½ï¼š
+     ä»æˆç»©æ–‡ä»¶ SCORE_FILEï¼ˆæ–‡æœ¬æ ¼å¼ï¼‰ä¸­è¯»å–å†å²è®°å½•ï¼Œ
+     å¡«å……åˆ°è®°å½•æ•°ç»„ rec ä¸­ï¼Œå¹¶è¿”å›è¯»å–æ¡æ•°ã€‚
+
+   å‚æ•°ï¼š
+     rec       - è®°å½•æ•°ç»„ï¼ˆè¾“å‡ºï¼‰ï¼›
+     max_count - æ•°ç»„å®¹é‡ä¸Šé™ã€‚
+
+   è¿”å›å€¼ï¼š
+     æˆåŠŸè¯»å–çš„è®°å½•æ¡æ•°ï¼ˆ0 è¡¨ç¤ºæ²¡æœ‰è®°å½•æˆ–æ–‡ä»¶ä¸å­˜åœ¨ï¼‰ã€‚
+
+   æ–‡ä»¶æ ¼å¼ï¼ˆæ¯è¡Œï¼‰ï¼š
+     name ms YYYY-MM-DD HH:MM:SS
+     ä¾‹å¦‚ï¼šAlice 320 2025-11-29 14:03:59
+   ========================================================= */
+int load_records(Record rec[], int max_count)
+{
+
+    int count = 0;
+    char buffer[50];
+    // TODO-1: åœ¨æ­¤å¤„å®ç°ä»æ–‡ä»¶è¯»å–è®°å½•åˆ° rec[] ä¸­çš„é€»è¾‘
+    FILE* score;
+    if ((score = fopen("D:\\Users\\C_PROGRAMMING\\reaction_game\\score.txt", "r")) == NULL) {
+        printf("Failure to open score.txt!");
+        exit(0);
+    }
+    // é€è¡Œè¯»å–ï¼Œç›´åˆ°æ–‡ä»¶ç»“æŸæˆ–è¾¾åˆ°æœ€å¤§æ•°é‡
+    while (count < max_count && fgets(buffer, sizeof(buffer), score) != NULL) {
+        // ç§»é™¤æ¢è¡Œç¬¦ï¼ˆå¦‚æœæœ‰ï¼‰
+        buffer[strcspn(buffer, "\n")] = '\0';
+
+        // è§£æè¡Œå†…å®¹
+        if (sscanf(buffer, "%s %d %s %s",
+            rec[count].name,
+            &rec[count].ms,
+            rec[count].date,
+            rec[count].time_str) == 4) {
+            count++;
+        }
+        else {
+            printf("Input wrong!");
+            exit(0);
+        }
+    }
+    fclose(score);
+    return count;
+}
+
+/* =========================================================
+   TODO-2: show_records
+   åŠŸèƒ½ï¼š
+     ä»¥è¡¨æ ¼å½¢å¼åœ¨å±å¹•ä¸Šè¾“å‡ºæ‰€æœ‰æˆç»©è®°å½•ã€‚
+     æ¯è¡Œæ˜¾ç¤ºï¼šç¼–å·ã€å§“åã€ååº”æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ã€è®°å½•æ—¶é—´ã€‚
+
+   å‚æ•°ï¼š
+     rec   - è®°å½•æ•°ç»„ï¼›
+     count - æœ‰æ•ˆè®°å½•æ¡æ•°ã€‚
+
+   è¿”å›å€¼ï¼š
+     æ— ï¼ˆvoidï¼‰ã€‚
+   ========================================================= */
+void show_records(const Record rec[], int count)
+{
+    // TODO-2: åœ¨æ­¤å¤„å®ç°éå†æ•°ç»„å¹¶æ ¼å¼åŒ–è¾“å‡ºçš„é€»è¾‘
+    for (int i = 0; i < count; i++) {
+        printf("%s %d %s %s\n", rec[i].name, rec[i].ms, rec[i].date, rec[i].time_str);
+    }
+}
+
+/* =========================================================
+   add_record
+  åŠŸèƒ½ï¼š
+     å‘æ•°ç»„æœ«å°¾è¿½åŠ ä¸€æ¡æ–°è®°å½•ï¼Œå¹¶å†™å…¥ score.txtã€‚
+
+   å‚æ•°ï¼š
+     rec[]   - è®°å½•æ•°ç»„ï¼ˆè¾“å…¥ / è¾“å‡ºï¼‰
+     count   - å½“å‰è®°å½•æ•°çš„æŒ‡é’ˆ
+     ms      - æœ¬æ¬¡ååº”æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
+
+   è¿”å›å€¼ï¼š
+     1   è¡¨ç¤ºæˆåŠŸè¿½åŠ 1æ¡è®°å½•
+    -1   è¡¨ç¤ºå‘ç”Ÿå¼‚å¸¸ï¼ˆæ•°ç»„å·²æ»¡ã€è¾“å…¥é”™è¯¯ã€æ–‡ä»¶å†™å…¥å¤±è´¥ï¼‰
+   ========================================================= */
+int add_record(Record rec[], int* count, int ms, char date[], char time_str[])
+{
+    // TODO-3: åœ¨æ­¤å¤„å®ç°è¿½åŠ è®°å½•å¹¶å†™å…¥æ–‡ä»¶çš„é€»è¾‘
+    FILE* score;
+    if ((score = fopen("D:\\Users\\C_PROGRAMMING\\reaction_game\\score.txt", "a")) == NULL) {
+        printf("Failure to open score.txt!");
+        return -1;
+    }
+    if (*count >= MAX_RECORDS) {
+        return -1;
+    }
+    printf("Input your name:");
+    scanf("%s", rec[*count].name);
+    rec[*count].ms = ms;
+    strcpy(rec[*count].date, date);
+    strcpy(rec[*count].time_str, time_str);
+    fprintf(score, "%s %d(ms) %s %s\n", rec[*count].name, rec[*count].ms, rec[*count].date, rec[*count].time_str);
+    (*count)++;
+    fclose(score);
+    return 1;
+}

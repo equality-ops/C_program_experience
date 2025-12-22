@@ -1,88 +1,88 @@
-//#define _CRT_SECURE_NO_WARNINGS
-//
-//#include<stdio.h>
-//#include<stdlib.h>
-//#define N 20
-//typedef struct stack_control {
-//	char str[N];
-//	int top;
-//}stack;
-//
-//void init(stack* s); // ³õÊ¼»¯Õ»¶¥Ö¸Õë
-//int empty(stack* s); // ÅÐ¶ÏÕ»ÊÇ·ñ¿Õ£¬¿Õ·µ»Ø 1£¬·Ç¿Õ·µ»Ø 0
-//int push(stack* s, char e); // ½«Ò»¸öÔªËØÈëÕ»£¬³É¹¦·µ»Ø 1£¬Ê§°Ü·µ»Ø 0
-//int pop(stack* s, char* e); // µ¯³öÕ»¶¥ÔªËØ£¬²¢Ê¹ e Ö¸Ïò±»µ¯³öµÄÔªËØ£¬³É¹¦·µ»Ø 1£¬Ê§°Ü·µ»Ø 0
-//void Judge(stack* s,char T[], int n);
-//int main() {
-//	int n;
-//	int i;
-//	stack s;
-//	char T[N];
-//	init(&s);
-//	scanf("%d", &n);
-//	if (n > N) {
-//		printf("Input wrong number£¡");
-//		exit(0);
-//	}
-//	getchar();
-//	for (i = 0; i < n; i++) {
-//		scanf("%c", &T[i]);
-//	}
-//	Judge(&s, T, n);
-//	return 0;
-//}
-//
-//void init(stack* s) {
-//	for (int i = 0; i < N; i++) {
-//		s->str[i] = 0;
-//	}
-//	s->top = 0;
-//}
-//
-//int empty(stack* s) {
-//	if (s->top == 0) {
-//		return 1;
-//	}
-//	else {
-//		return 0;
-//	}
-//}
-//
-//int push(stack* s, char e) {
-//	if (s->top >= N) {
-//		return 0;
-//	}
-//	s->str[s->top] = e;
-//	s->top++;
-//	return 1;
-//}
-//
-//int pop(stack* s, char* e) {
-//	if (empty(s)) {
-//		return 0;
-//	}
-//	s->top--;
-//	*e = s->str[s->top];
-//	return 1;
-//}
-//
-//void Judge(stack* s, char T[], int n){
-//	char c1, c2;
-//	for(int i = 0; i < n; i++){
-//		push(s, T[i]);
-//		if (s->top >= 2) {
-//			pop(s, &c2);
-//			pop(s, &c1);
-//			if (c1 != c2) {
-//				push(s, c1);
-//				push(s, c2);
-//			}
-//		}
-//	}
-//	if (empty(s)) {
-//		printf("You win!\n");
-//	}
-//	else {
-//		printf("You lose!\n");
-//	}
-//}
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<stdio.h>
+#include<stdlib.h>
+#define N 20
+typedef struct stack_control {
+	char str[N];
+	int top;
+}stack;
+
+void init(stack* s); // ï¿½ï¿½Ê¼ï¿½ï¿½Õ»ï¿½ï¿½Ö¸ï¿½ï¿½
+int empty(stack* s); // ï¿½Ð¶ï¿½Õ»ï¿½Ç·ï¿½Õ£ï¿½ï¿½Õ·ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½Ç¿Õ·ï¿½ï¿½ï¿½ 0
+int push(stack* s, char e); // ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½ 0
+int pop(stack* s, char* e); // ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½Ê¹ e Ö¸ï¿½ò±»µï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½ 0
+void Judge(stack* s,char T[], int n);
+int main() {
+	int n;
+	int i;
+	stack s;
+	char T[N];
+	init(&s);
+	scanf("%d", &n);
+	if (n > N) {
+		printf("Input wrong numberï¿½ï¿½");
+		exit(0);
+	}
+	getchar();
+	for (i = 0; i < n; i++) {
+		scanf("%c", &T[i]);
+	}
+	Judge(&s, T, n);
+	return 0;
+}
+
+void init(stack* s) {
+	for (int i = 0; i < N; i++) {
+		s->str[i] = 0;
+	}
+	s->top = 0;
+}
+
+int empty(stack* s) {
+	if (s->top == 0) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+int push(stack* s, char e) {
+	if (s->top >= N) {
+		return 0;
+	}
+	s->str[s->top] = e;
+	s->top++;
+	return 1;
+}
+
+int pop(stack* s, char* e) {
+	if (empty(s)) {
+		return 0;
+	}
+	s->top--;
+	*e = s->str[s->top];
+	return 1;
+}
+
+void Judge(stack* s, char T[], int n){
+	char c1, c2;
+	for(int i = 0; i < n; i++){
+		push(s, T[i]);
+		if (s->top >= 2) {
+			pop(s, &c2);
+			pop(s, &c1);
+			if (c1 != c2) {
+				push(s, c1);
+				push(s, c2);
+			}
+		}
+	}
+	if (empty(s)) {
+		printf("You win!\n");
+	}
+	else {
+		printf("You lose!\n");
+	}
+}

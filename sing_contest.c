@@ -1,96 +1,96 @@
-//#define _CRT_SECURE_NO_WARNINGS
-//
-//#include<stdio.h>
-//#include<stdlib.h>
-//
-//void merge(int arr[], int temp[], int left, int mid, int right);
-//void mergeSort(int arr[], int temp[], int left, int right);
-//int main() {
-//	int n, m;
-//	int** score = NULL;
-//	int* temp_1 = NULL;
-//	float* temp_2 = NULL;
-//	float* ave_score = NULL;
-// 	scanf("%d%d", &n, &m);
-//	// ´´½¨¹é²¢ÅÅÐòÖÐµÄÁÙÊ±Êý×é
-//	temp_1 = (int*)calloc(m, sizeof(int));
-//	if (temp_1 == NULL) {
-//		printf("No enough memory to allocate!");
-//		exit(0);
-//	}
-//	temp_2 = (float*)calloc(n, sizeof(float));
-//	if (temp_2 == NULL) {
-//		printf("No enough memory to allocate!");
-//		exit(0);
-//	}
-//	// ´´½¨´æ·ÅÆ½¾ù·ÖµÄÊý×é
-//	ave_score = (float*)calloc(n, sizeof(float));
-//	if (ave_score == NULL) {
-//		printf("No enough memory to allocate!");
-//		exit(0);
-//	}
-//	// ¹¹Ôìn*mµÄ¶þÎ¬Êý×é
-//	score = (int**)calloc(n, sizeof(int*));
-//	if (score == NULL) {
-//		printf("No enough memory to allocate!");
-//		exit(0);
-//	}
-//	for (int i = 0; i < n; i++) {
-//		score[i] = (int*)calloc(m, sizeof(int));
-//	}
-//	for (int i = 0; i < n; i++) {
-//		for (int j = 0; j < m; j++) {
-//			scanf("%d", &score[i][j]);
-//		}
-//	}
-//	// ¶ÔÃ¿Î»Ñ§ÉúµÄÆÀ·Ö½øÐÐ¹é²¢ÅÅÐò
-//	for (int i = 0; i < n; i++) {
-//		mergeSort(score[i], temp_1, 0, m - 1);
-//	}
-//	// ¼ÆËãÆ½¾ù·Ö
-//	for (int i = 0; i < n; i++) {
-//		int sum = 0;
-//		for(int j=1;j<m-1;j++){
-//			sum += score[i][j];
-//		}
-//		ave_score[i] = sum / (m - 2);
-//	}
-//	mergeSort(ave_score, temp_2, 0, n - 1);
-//	printf("%.2f", ave_score[n - 1]);
-//	return 0;
-//}
-//
-//void merge(int arr[], int temp[], int left, int mid, int right) {
-//	int i = left;
-//	int j = mid + 1;
-//	int k = left;
-//	while (i <= mid && j <= right) {
-//		if (arr[i] < arr[j]) {
-//			temp[k] = arr[i++];
-//		}
-//		else {
-//			temp[k] = arr[j++];
-//		}
-//		k++;
-//	}
-//	while (i <= mid) {
-//		temp[k++] = arr[i++];
-//	}
-//	while (j <= right) {
-//		temp[k++] = arr[j++];
-//	}
-//
-//	for (i = left; i <= right; i++) {
-//		arr[i] = temp[i];
-//	}
-//}
-//
-//void mergeSort(int arr[], int temp[], int left, int right) {
-//	if (left < right) {
-//		int mid = left + (right - left) / 2;
-//
-//		mergeSort(arr, temp, left, mid);
-//		mergeSort(arr, temp, mid + 1, right);
-//		merge(arr, temp, left, mid, right);
-//	}
-//}
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<stdio.h>
+#include<stdlib.h>
+
+void merge(int arr[], int temp[], int left, int mid, int right);
+void mergeSort(int arr[], int temp[], int left, int right);
+int main() {
+	int n, m;
+	int** score = NULL;
+	int* temp_1 = NULL;
+	float* temp_2 = NULL;
+	float* ave_score = NULL;
+	scanf("%d%d", &n, &m);
+	// ï¿½ï¿½ï¿½ï¿½ï¿½é²¢ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+	temp_1 = (int*)calloc(m, sizeof(int));
+	if (temp_1 == NULL) {
+		printf("No enough memory to allocate!");
+		exit(0);
+	}
+	temp_2 = (float*)calloc(n, sizeof(float));
+	if (temp_2 == NULL) {
+		printf("No enough memory to allocate!");
+		exit(0);
+	}
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½
+	ave_score = (float*)calloc(n, sizeof(float));
+	if (ave_score == NULL) {
+		printf("No enough memory to allocate!");
+		exit(0);
+	}
+	// ï¿½ï¿½ï¿½ï¿½n*mï¿½Ä¶ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
+	score = (int**)calloc(n, sizeof(int*));
+	if (score == NULL) {
+		printf("No enough memory to allocate!");
+		exit(0);
+	}
+	for (int i = 0; i < n; i++) {
+		score[i] = (int*)calloc(m, sizeof(int));
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			scanf("%d", &score[i][j]);
+		}
+	}
+	// ï¿½ï¿½Ã¿Î»Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½Ð¹é²¢ï¿½ï¿½ï¿½ï¿½
+	for (int i = 0; i < n; i++) {
+		mergeSort(score[i], temp_1, 0, m - 1);
+	}
+	// ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½
+	for (int i = 0; i < n; i++) {
+		int sum = 0;
+		for(int j=1;j<m-1;j++){
+			sum += score[i][j];
+		}
+		ave_score[i] = sum / (m - 2);
+	}
+	mergeSort(ave_score, temp_2, 0, n - 1);
+	printf("%.2f", ave_score[n - 1]);
+	return 0;
+}
+
+void merge(int arr[], int temp[], int left, int mid, int right) {
+	int i = left;
+	int j = mid + 1;
+	int k = left;
+	while (i <= mid && j <= right) {
+		if (arr[i] < arr[j]) {
+			temp[k] = arr[i++];
+		}
+		else {
+			temp[k] = arr[j++];
+		}
+		k++;
+	}
+	while (i <= mid) {
+		temp[k++] = arr[i++];
+	}
+	while (j <= right) {
+		temp[k++] = arr[j++];
+	}
+
+	for (i = left; i <= right; i++) {
+		arr[i] = temp[i];
+	}
+}
+
+void mergeSort(int arr[], int temp[], int left, int right) {
+	if (left < right) {
+		int mid = left + (right - left) / 2;
+
+		mergeSort(arr, temp, left, mid);
+		mergeSort(arr, temp, mid + 1, right);
+		merge(arr, temp, left, mid, right);
+	}
+}
