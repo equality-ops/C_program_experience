@@ -1,19 +1,13 @@
-//#define _CRT_SECURE_NO_WARNINGS
-//
-//#include<stdio.h>
-//
-//#define length 3
-//int main() {
-//	char my_str[length];
-//	int count;
-//	FILE* fp = NULL;
-//	if ((fp = fopen("D:\\Users\\C_PROGRAMMING\\tes1.txt", "r")) == NULL) {
-//		printf("Failure to open text.txt!");
-//		exit(0);
-//	}
-//	count = fread(my_str, 2 * sizeof(char), 1, fp);
-//	my_str[length - 1] = '\0';
-//	printf("¶ÁÈ¡µ½µÄÄÚÈİÎª£º%s", my_str);	
-//	fclose(fp);
-//	return 0;
-//}
+// #include<stdio.h>
+// #include<string.h>
+// #include <windows.h>  // Windows ç³»ç»Ÿéœ€è¦
+
+// int main(){
+//     // è®¾ç½®æ§åˆ¶å°è¾“å‡ºç¼–ç ä¸º UTF-8
+//     char temp[] = "hello,world!";
+//     char str_1[10];
+//     char str_2[20];
+//     scanf("%s", str_1);
+//     printf("%s", str_1);
+//     return 0;
+// }
