@@ -136,6 +136,7 @@
     <ClCompile Include="Read_ASCII.c" />
     <ClCompile Include="Review_sort_way.c" />
     <ClCompile Include="sing_contest.c" />
+    <ClCompile Include="Song_player.c" />
     <ClCompile Include="Sort.c" />
     <ClCompile Include="Sort_choice.c" />
     <ClCompile Include="Sort_fast.c" />
