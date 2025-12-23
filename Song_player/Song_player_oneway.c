@@ -75,7 +75,7 @@ void play_audio(const char* filename){
     // system(command);
 }
 
-
+// 从文件中读取歌单列表并存储到一个链表中
 int load_songs_from_file(PlaylistManager* manager, const char* filename){
     FILE* fp = NULL;
     char temp[450];
@@ -85,6 +85,10 @@ int load_songs_from_file(PlaylistManager* manager, const char* filename){
         return -1;
     }
     while(fgets(temp, sizeof(temp), fp)){
+        // 如果读到空行则跳过
+        if(strcmp(temp, "") == 0 || strcmp(temp, "\n") == 0){
+            continue;
+        }
         p = (Song*)calloc(1, sizeof(Song));
         if(p == NULL){
             printf("No enough memory to allocate!\n");
@@ -100,7 +104,7 @@ int load_songs_from_file(PlaylistManager* manager, const char* filename){
         }else{
             manager->tail->next = p;
             p->id = manager->song_count;
-            sscanf(temp, "%100[^,],%50[^,],%300s", p->title, p->artist, p->filepath);
+            sscanf(temp, "%100[^,],%50[^,],%s", p->title, p->artist, p->filepath);
             p->next = NULL;
             manager->tail = p;
             manager->song_count++;
@@ -185,6 +189,7 @@ int delete_songs_by_title(PlaylistManager* manager, const char* title) {
                 free(p);
             }else{
                 pr->next = p->next;
+                manager->song_count--;
                 free(p);
                 p = pr->next;
             }
@@ -357,9 +362,6 @@ void get_user_input(char* buffer, int size, const char* prompt) {
 
 // 主函数 - 交互式程序
 int main() {
-    // 设置程序使用系统默认的区域设置，并允许使用UTF-8编码
-    setlocale(LC_ALL, ".UTF-8");
-
     // 设置随机数种子
     srand(time(NULL));
     PlaylistManager manager;

@@ -96,6 +96,10 @@ int load_songs_from_file(PlaylistManager* manager, const char* filename){
         return -1;
     }
     while(fgets(temp, sizeof(temp), fp)){
+        // 如果读到空行则跳过
+        if(strcmp(temp, "") == 0 || strcmp(temp, "\n") == 0){
+            continue;
+        }
         p = (Song*)calloc(1, sizeof(Song));
         if(p == NULL){
             printf("No enough memory to allocate!\n");
