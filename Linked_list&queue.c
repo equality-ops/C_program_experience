@@ -25,38 +25,38 @@ int find_list(struct linked_list* head, int k);
 void free_memeory(struct linked_list* head);
 int main() {
 	int n;
-	int x; // ɾ����Ŀ��ڵ��������
-	int k; // ������k���ڵ�
-	int notedata; // ����ʱ�������ݵ�����
-	int result; // ������k���ڵ��ֵ
+	int x; // ?????????????????
+	int k; // ??????k?????
+	int notedata; // ??????????????????
+	int result; // ??????k???????
 	struct linked_list* head = NULL;
 	struct linked_list* temp = NULL;
 	struct queue* queue = NULL;
 	queue = (struct queue*)calloc(1, sizeof(struct queue));
 	Init_queue(queue);
-	srand(time(NULL)); // �������������
-	printf("����������Ҫ�����������Ԫ�ظ�����");
+	srand(time(NULL)); // ?????????????
+	printf("??????????????????????????????");
 	scanf("%d", &n);
 	for (int i = 0; i < n; i++) {
 		int data = rand() % 10 + 1;
 		Enqueue(queue, data);
 	}
 	if (queue->front->next == NULL) {
-		printf("������Ϊ�գ�");
+		printf("??????????");
 		exit(0);
 	}
 	temp = queue->front->next;
-	printf("��ǰ��%d��Ԫ�ص�����Ϊ��", queue->size);
+	printf("?????%d?????????????", queue->size);
 	while (temp != NULL) {
 		printf("%d ", temp->data);
 		temp = temp->next;
 	}
-	printf("\n��ȡ���׵�һ��Ԫ�أ�");
+	printf("\n???????????????");
 	if (Dequeue(queue, &notedata)) {
 		printf("%d", notedata);
 	}
 	temp = queue->front->next;
-	printf("���Ӻ������Ϊ��", queue->size);
+	printf("?????????????", queue->size);
 	while (temp != NULL) {
 		printf("%d ", temp->data);
 		temp = temp->next;
@@ -87,7 +87,7 @@ struct linked_list* append_list(struct linked_list* head, int data) {
 	return head;
 }
 
-// �ǵݹ鷽ʽɾ������������ֵΪx�Ľڵ�
+// ???��????????????????x????
 struct linked_list* delete_list(struct linked_list* head, int aimed_data) {
 	struct linked_list* p = head;
 	struct linked_list* pr = p;
@@ -112,26 +112,26 @@ struct linked_list* delete_list(struct linked_list* head, int aimed_data) {
 	return head;
 }
 
-// �ݹ�ɾ������������ֵΪaimed_data�Ľڵ㣬�����µ�ͷָ��
+// ??????????????????aimed_data???????????????
 struct linked_list* delete_list_In_recursion(struct linked_list* head, int aimed_data) {
 	if (head == NULL) {
 		return NULL;
 	}
 
-	// �ȵݹ鴦�������ڵ�
+	// ???��?????????
 	head->next = delete_list_In_recursion(head->next, aimed_data);
 
-	// �ٴ�����ǰ�ڵ�
+	// ???????????
 	if (head->data == aimed_data) {
 		struct linked_list* temp = head->next;
 		free(head);
-		return temp;  // ������һ���ڵ���Ϊ�µ�ͷ
+		return temp;  // ???????????????????
 	}
 
-	return head;  // ��ǰ�ڵ㲻��Ҫɾ��
+	return head;  // ????????????
 }
 
-// �ͷ�����ռ�е��ڴ�ռ�
+// ?????????��??????
 void free_memeory(struct linked_list* head) {
 	struct linked_list* p = head;
 	struct linked_list* pr = p;
@@ -142,7 +142,7 @@ void free_memeory(struct linked_list* head) {
 	}
 }
 
-// ����˵����Ѱ�ҵ�����k���ڵ㲢�������������Ҳ����򷵻�-1
+// ?????????????????k?????????????????????????-1
 int find_list(struct linked_list* head, int k) {
 	struct linked_list* fast = head;
 	struct linked_list* slow = NULL;
@@ -167,7 +167,7 @@ int find_list(struct linked_list* head, int k) {
 	}
 }
 
-// ����˵������ʼ������
+// ??????????????????
 void Init_queue(struct queue* queue) {
 	struct linked_list* p = NULL;
 	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
@@ -182,7 +182,7 @@ void Init_queue(struct queue* queue) {
 	queue->size = 0;
 }
 
-// �����
+// ?????
 void Enqueue(struct queue* queue, int notedata) {
 	struct linked_list* p = NULL;
 	p = (struct linked_list*)calloc(1, sizeof(struct linked_list));
@@ -197,7 +197,7 @@ void Enqueue(struct queue* queue, int notedata) {
 	queue->size++;
 }
 
-// ������
+// ??????
 int Dequeue(struct queue* queue, int* notedata) {
 	struct linked_list* temp = NULL;
 	if (queue->front == queue->rear) {

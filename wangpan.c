@@ -4,192 +4,192 @@
 #include <stdlib.h>
 #include <string.h>
 
-// �û��ڵ㶨��
+// 用户节点定义
 typedef struct Node {
-   char name[50];
-   int level; // 1=��ͨ, 2=VIP, 3=SVIP
-   struct Node* next;
+    char name[50];
+    int level; // 1=普通, 2=VIP, 3=SVIP
+    struct Node* next;
 } Node;
 
-// ���нṹ��
+// 队列结构体
 typedef struct Queue {
-   Node* front;
-   Node* rear;
+    Node* front;
+    Node* rear;
 } Queue;
 
-// ��ʼ������
-// ������q-����
+// 初始化队列
+// 参数：q-队列
 void initQueue(Queue* q) {
-   // TODO����ɶ��г�ʼ�����룬��ͷ��front,��β��rear��ʾ
-   q->front = NULL;
-   q->rear = NULL;
+    // TODO：完成队列初始化代码，队头用front,队尾用rear表示
+    q->front = NULL;
+    q->rear = NULL;
 }
 
-// �����ڵ�
+// 创建节点
 Node* createNode(const char* name, int level) {
-   Node* newNode = NULL;
-   newNode = (Node*)malloc(sizeof(Node));
-   if (newNode == NULL) {
-       printf("No enough memory to allocate!");
-       exit(0);
-   }
-   strcpy(newNode->name, name);
-   newNode->level = level;
-   newNode->next = NULL;
-   return newNode;
+    Node* newNode = NULL;
+    newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("No enough memory to allocate!");
+        exit(0);
+    }
+    strcpy(newNode->name, name);
+    newNode->level = level;
+    newNode->next = NULL;
+    return newNode;
 }
 
-// Request��������ӣ������ȼ����룩
-// ������q-���У�name-�û�����level-�ȼ�
+// Request操作：入队（带优先级插入）
+// 参数：q-队列，name-用户名，level-等级
 void request(Queue* q, const char* name, int level) {
-   Node* newNode = createNode(name, level);
-   Node* p = NULL;
-   Node* pr = NULL;
-   // ����Ϊ�գ�ֱ�Ӽ���
-   if (q->front == NULL) {
-       // TODO����ɶ���Ϊ�յ��߼�
-       q->front = newNode;
-       q->rear = newNode;
-       return;
-   }
-   // �����߼����ߵȼ����ڵ͵ȼ��û�ǰ�棬ͬ�ȼ������ں���
-   // TODO���밴�ոò��ֵ�Ҫ��ȫ����
-   p = q->front;
-   pr = p;
-   while (p != NULL && newNode->level <= p->level) {
-       pr = p;
-       p = p->next;
-   }
+    Node* newNode = createNode(name, level);
+    Node* p = NULL;
+    Node* pr = NULL;
+    // 队列为空，直接加入
+    if (q->front == NULL) {
+        // TODO：完成队列为空的逻辑
+        q->front = newNode;
+        q->rear = newNode;
+        return;
+    }
+    // 插入逻辑：高等级插在低等级用户前面，同等级则排在后面
+    // TODO：请按照该部分的要求补全代码
+    p = q->front;
+    pr = p;
+    while (p != NULL && newNode->level <= p->level) {
+        pr = p;
+        p = p->next;
+    }
 
-   if (p == q->front) {
-       newNode->next = q->rear;
-       q->front = newNode;
-   }
-   else if (p == NULL) {
-       pr->next = newNode;
-       q->rear = newNode;
-   }
-   else {
-       newNode->next = p;
-       pr->next = newNode;
-   }
+    if (p == q->front) {
+        newNode->next = q->rear;
+        q->front = newNode;
+    }
+    else if (p == NULL) {
+        pr->next = newNode;
+        q->rear = newNode;
+    }
+    else {
+        newNode->next = p;
+        pr->next = newNode;
+    }
 }
 
-// Download�������������Ԫ�أ���ɾ����Ԫ��
-// ������q-����
+// Download操作：输出队首元素，并删除该元素
+// 参数：q-队列
 void download(Queue* q) {
-   if (q->front == NULL) {
-       printf("����Ϊ�գ�û�п����ص�����\n");
-       return;
-   }
-   Node* temp = q->front;
-   printf("�����У�%s (level=%d)\n", temp->name, temp->level);
-   //TODO���������ɾ������Ԫ�ص��߼�
-   q->front = q->front->next;
-   if (q->front == NULL) {
-       q->rear = NULL;
-   }
-   free(temp);
+    if (q->front == NULL) {
+        printf("队列为空，没有可下载的任务。\n");
+        return;
+    }
+    Node* temp = q->front;
+    printf("下载中：%s (level=%d)\n", temp->name, temp->level);
+    //TODO：继续完成删除队首元素的逻辑
+    q->front = q->front->next;
+    if (q->front == NULL) {
+        q->rear = NULL;
+    }
+    free(temp);
 }
 
-// Remove������ɾ��ָ���û�
-// ������q-���У�name-�û���
+// Remove操作：删除指定用户
+// 参数：q-队列，name-用户名
 void removeUser(Queue* q, const char* name) {
-   if (q->front == NULL) {
-       printf("����Ϊ�գ��޷�ɾ����\n");
-       return;
-   }
-   Node* prev = NULL;
-   Node* curr = q->front;
-   while (curr != NULL && strcmp(curr->name, name) != 0) {
-       // TODO��������Ѱ��ָ���û�λ�õ��߼�
-       prev = curr;
-       curr = curr->next;
-   }
-   if (curr == NULL) {
-       printf("δ�ҵ��û���%s\n", name);
-       return;
-   }
-   // ɾ��ָ���û���ע�⿼�Ƕ�ͷ�Ͷ�β�����
-   // TODO�������Ƹò��ִ���
-   if (curr == q->front) {
-       q->front = curr->next;
-   }
-   else if (curr == q->rear) {
-       prev->next = NULL;
-       q->rear = prev;
-   }
-   else {
-       prev->next = curr->next;
-   }
-   free(curr);
-   printf("��ɾ���û���%s\n", name);
+    if (q->front == NULL) {
+        printf("队列为空，无法删除。\n");
+        return;
+    }
+    Node* prev = NULL;
+    Node* curr = q->front;
+    while (curr != NULL && strcmp(curr->name, name) != 0) {
+        // TODO：请完善寻找指定用户位置的逻辑
+        prev = curr;
+        curr = curr->next;
+    }
+    if (curr == NULL) {
+        printf("未找到用户：%s\n", name);
+        return;
+    }
+    // 删除指定用户，注意考虑队头和队尾的情况
+    // TODO：请完善该部分代码
+    if (curr == q->front) {
+        q->front = curr->next;
+    }
+    else if (curr == q->rear) {
+        prev->next = NULL;
+        q->rear = prev;
+    }
+    else {
+        prev->next = curr->next;
+    }
+    free(curr);
+    printf("已删除用户：%s\n", name);
 }
 
-// Display��������ʾ����
-// ������q-����
+// Display操作：显示队列
+// 参数：q-队列
 void display(Queue* q) {
-   if (q->front == NULL) {
-       printf("��ǰ����Ϊ�ա�\n");
-       return;
-   }
-   Node* curr = q->front;
-   printf("��ǰ���ض��У�\n");
-   while (curr != NULL) {
-       printf("�û���: %-10s | level: %d\n", curr->name, curr->level);
-       // TODO��������ʣ������߼�
-       curr = curr->next;
-   }
+    if (q->front == NULL) {
+        printf("当前队列为空。\n");
+        return;
+    }
+    Node* curr = q->front;
+    printf("当前下载队列：\n");
+    while (curr != NULL) {
+        printf("用户名: %-10s | level: %d\n", curr->name, curr->level);
+        // TODO：请完善剩余代码逻辑
+        curr = curr->next;
+    }
 }
 
-// ��������ģ���������
+// 主函数：模拟操作命令
 int main() {
-   Queue q;
-   initQueue(&q);
+    Queue q;
+    initQueue(&q);
 
-   char command[50];
-   char name[50];
-   int level;
-   printf("=== ĳ���������ص���ϵͳ ===\n");
-   printf("֧�����Request �û��� level | Download | Remove �û��� | Display | Exit\n");
-   printf("���������\n");
-   while (1) {
-       scanf("%s", command);
-       if (strcmp(command, "Request") == 0) {
-           scanf("%s %d", name, &level);
-           // �����û��ȼ��ж��߼�����������Ч�û��ȼ�ʱ�����������Ч���û��ȼ��������� 1����ͨ�� 2��VIP�� 3��SVIP��������Ȼ���С�
-           // TODO��
-           if (level != 1 && level != 2 && level != 3) {
-               printf("��Ч���û��ȼ��������� 1����ͨ�� 2��VIP�� 3��SVIP����\n");
-               continue;
-           }
-           request(&q, name, level);
-           printf("�û� %s (level=%d) �Ѽ�����С�\n", name, level);
+    char command[50];
+    char name[50];
+    int level;
+    printf("=== 某度网盘下载调度系统 ===\n");
+    printf("支持命令：Request 用户名 level | Download | Remove 用户名 | Display | Exit\n");
+    printf("请输入命令：\n");
+    while (1) {
+        scanf("%s", command);
+        if (strcmp(command, "Request") == 0) {
+            scanf("%s %d", name, &level);
+            // 完善用户等级判断逻辑，当出现无效用户等级时，输出：“无效的用户等级，请输入 1（普通） 2（VIP） 3（SVIP）。”，然后换行。
+            // TODO：
+            if (level != 1 && level != 2 && level != 3) {
+                printf("无效的用户等级，请输入 1（普通） 2（VIP） 3（SVIP）。\n");
+                continue;
+            }
+            request(&q, name, level);
+            printf("用户 %s (level=%d) 已加入队列。\n", name, level);
 
-       }
-       else if (strcmp(command, "Download") == 0) {
-           download(&q);
+        }
+        else if (strcmp(command, "Download") == 0) {
+            download(&q);
 
-       }
-       else if (strcmp(command, "Remove") == 0) {
-           scanf("%s", name);
-           removeUser(&q, name);
+        }
+        else if (strcmp(command, "Remove") == 0) {
+            scanf("%s", name);
+            removeUser(&q, name);
 
-       }
-       else if (strcmp(command, "Display") == 0) {
-           display(&q);
+        }
+        else if (strcmp(command, "Display") == 0) {
+            display(&q);
 
-       }
-       else if (strcmp(command, "Exit") == 0) {
-           printf("�������˳���\n");
-           break;
-       }
-       // ���ƴ����߼�����������Ч����ʱ�����������Ч������������롣����Ȼ����
-       // TODO��
-       else {
-           printf("��Ч������������롣\n");
-       }
-   }
+        }
+        else if (strcmp(command, "Exit") == 0) {
+            printf("程序已退出。\n");
+            break;
+        }
+        // 完善代码逻辑，当输入无效命令时，请输出“无效命令，请重新输入。”，然后换行
+        // TODO：
+        else {
+            printf("无效命令，请重新输入。\n");
+        }
+    }
 
-   return 0;
+    return 0;
 }

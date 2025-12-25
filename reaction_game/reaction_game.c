@@ -72,7 +72,7 @@ int main(void)
             clear_input_buffer();
             if (ch == 'y' || ch == 'Y') {
                 FILE* score;
-                if ((score = fopen("D:\\Users\\C_PROGRAMMING\\reaction_game\\score.txt", "w")) == NULL) {
+                if ((score = fopen("score.txt", "w")) == NULL) {
                     printf("Failure to open score.txt to clear it!");
                     exit(0);
                 }
@@ -207,7 +207,7 @@ int load_records(Record rec[], int max_count)
     char buffer[50];
     // TODO-1: 在此处实现从文件读取记录到 rec[] 中的逻辑
     FILE* score;
-    if ((score = fopen("D:\\Users\\C_PROGRAMMING\\reaction_game\\score.txt", "r")) == NULL) {
+    if ((score = fopen("score.txt", "r")) == NULL) {
         printf("Failure to open score.txt!");
         exit(0);
     }
@@ -272,7 +272,7 @@ int add_record(Record rec[], int* count, int ms, char date[], char time_str[])
 {
     // TODO-3: 在此处实现追加记录并写入文件的逻辑
     FILE* score;
-    if ((score = fopen("D:\\Users\\C_PROGRAMMING\\reaction_game\\score.txt", "a")) == NULL) {
+    if ((score = fopen("score.txt", "a")) == NULL) {
         printf("Failure to open score.txt!");
         return -1;
     }

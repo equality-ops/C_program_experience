@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -11,8 +9,8 @@ int main() {
 	int* temp_1 = NULL;
 	float* temp_2 = NULL;
 	float* ave_score = NULL;
-	scanf("%d%d", &n, &m);
-	// �����鲢�����е���ʱ����
+ 	scanf("%d%d", &n, &m);
+	// 创建归并排序中的临时数组
 	temp_1 = (int*)calloc(m, sizeof(int));
 	if (temp_1 == NULL) {
 		printf("No enough memory to allocate!");
@@ -23,13 +21,13 @@ int main() {
 		printf("No enough memory to allocate!");
 		exit(0);
 	}
-	// �������ƽ���ֵ�����
+	// 创建存放平均分的数组
 	ave_score = (float*)calloc(n, sizeof(float));
 	if (ave_score == NULL) {
 		printf("No enough memory to allocate!");
 		exit(0);
 	}
-	// ����n*m�Ķ�ά����
+	// 构造n*m的二维数组
 	score = (int**)calloc(n, sizeof(int*));
 	if (score == NULL) {
 		printf("No enough memory to allocate!");
@@ -43,11 +41,11 @@ int main() {
 			scanf("%d", &score[i][j]);
 		}
 	}
-	// ��ÿλѧ�������ֽ��й鲢����
+	// 对每位学生的评分进行归并排序
 	for (int i = 0; i < n; i++) {
 		mergeSort(score[i], temp_1, 0, m - 1);
 	}
-	// ����ƽ����
+	// 计算平均分
 	for (int i = 0; i < n; i++) {
 		int sum = 0;
 		for(int j=1;j<m-1;j++){

@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int If_leap_year(int year);
+int Detect_if_valid(int year,int month,int day);
+int Compute_days(int year,int month,int day);
+
+const int leap_year_day[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
+const int normal_year_day[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+int main()
+{
+    int year, month, day;
+    int days = 0;
+    int temp = 0;
+    if(scanf("%d-%d-%d",&year,&month,&day) != 3){
+        printf("Invalid input");
+        exit(0);
+    }
+
+    if(Detect_if_valid(year,month,day)){
+        printf("Invalid input");
+        exit(0);
+    }
+
+    days = Compute_days(year, month, day);
+    temp = days%5;
+
+    if(temp == 1||temp == 2||temp == 3){
+        printf("working");
+    }else{
+        printf("rest");
+    }
+    return 0;
+}
+
+int If_leap_year(int year){
+    return ((year%4==0&&year%100!=0)||year%400==0)?1:0;
+}
+
+int Detect_if_valid(int year,int month,int day){
+    if(If_leap_year(year)){
+        if(month<1||month>12||leap_year_day[month-1]<day){
+            return 1;
+        }else{
+            return 0;
+        }
+    }else{
+        if(month<1||month>12||normal_year_day[month-1]<day){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+}
+
+int Compute_days(int year,int month,int day){
+    int i = 0;
+    int days = 0;
+    int leap_year_num = 0;
+    int normal_year_num = 0;
+
+    if(year<=1992){
+        leap_year_num = 0;
+    }else{
+        leap_year_num = (year - 1992)/4;
+    }
+
+    normal_year_num = year - 1990 - leap_year_num;
+    days += leap_year_num * 366 + normal_year_num * 365;
+
+    for(i=0;i<month-1;i++){
+        if(If_leap_year(year)){
+            days+=leap_year_day[i];
+        }else{
+            days+=normal_year_day[i];
+        }
+    }
+    days += day;
+    return days;
+}
